@@ -3,16 +3,16 @@ import * as fsm from 'fsmjs/src/fsm';
 const DOOR_COUNT = 3;
 
 export class MontyHallProblem {
-    constructor(contestant, func_random) {
+    constructor(contestant, fnRandom) {
         this._contestant = contestant;
-        this._func_random = func_random || function (n) {
+        this._fnRandom = fnRandom || function (n) {
             return Math.floor(Math.random() * n);
         };
 
-        this._initial_choice_door = null;
-        this._final_choice_door = null;
-        this._revealed_goat_door = null;
-        this._prize_door = this._func_random(DOOR_COUNT); //0-based
+        this._initialChoiceDoor = null;
+        this._finalChoiceDoor = null;
+        this._revealedGoatDoor = null;
+        this._prizeDoor = this._fnRandom(DOOR_COUNT); //0-based
 
         this._fsm = fsm.createMachine({
             spec: {
@@ -21,10 +21,10 @@ export class MontyHallProblem {
                     transitions: {
                         guess: {
                             nextState: "HAVE_INITIAL_GUESS",
-                            action: (pass, initial_choice_door) => {
-                                this._initial_choice_door = initial_choice_door;
-                                this._revealed_goat_door = this._findAGoatDoor();
-                                this._contestant.requestSecondGuess(this, this._revealed_goat_door, this._initial_choice_door);
+                            action: (pass, initialChoiceDoor) => {
+                                this._initialChoiceDoor = initialChoiceDoor;
+                                this._revealedGoatDoor = this._findAGoatDoor();
+                                this._contestant.requestSecondGuess(this, this._revealedGoatDoor, this._initialChoiceDoor);
                             }
                         }
                     }
@@ -33,8 +33,8 @@ export class MontyHallProblem {
                     transitions: {
                         guess: {
                             nextState: "END",
-                            action: (pass, final_choice_door) => {
-                                this._final_choice_door = final_choice_door;
+                            action: (pass, finalChoiceDoor) => {
+                                this._finalChoiceDoor = finalChoiceDoor;
                             }
                         }
                     }
@@ -63,7 +63,7 @@ export class MontyHallProblem {
     }
 
     get doorWithPrize() {
-        return this._prize_door;
+        return this._prizeDoor;
     }
 
     get isGameFinished() {
@@ -71,16 +71,16 @@ export class MontyHallProblem {
     }
 
     get didContestantWin() {
-        return this.isGameFinished && this._final_choice_door == this._prize_door;
+        return this.isGameFinished && this._finalChoiceDoor == this._prizeDoor;
     }
 
     _findAGoatDoor() {
-        let goat_doors = [];
+        let goatDoors = [];
         for (let i = 0; i < this.doorCount; ++i) {
-            if (i != this.doorWithPrize && i != this._initial_choice_door) {
-                goat_doors.push(i);
+            if (i != this.doorWithPrize && i != this._initialChoiceDoor) {
+                goatDoors.push(i);
             }
         }
-        return goat_doors[this._func_random(goat_doors.length)];
+        return goatDoors[this._fnRandom(goatDoors.length)];
     }
 }
