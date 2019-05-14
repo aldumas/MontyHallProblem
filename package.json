@@ -1,0 +1,25 @@
+{
+  "name": "MontyHallProblem",
+  "version": "0.1.0",
+  "description": "Demonstration of the Monty Hall Problem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aldumas/MontyHallProblem.git"
+  },
+  "author": "Adam Dumas",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/aldumas/MontyHallProblem/issues"
+  },
+  "homepage": "https://github.com/aldumas/MontyHallProblem#readme",
+  "browserslist": [
+    "defaults"
+  ],
+  "dependencies": {
+    "fsmjs": "git+https://github.com/aldumas/fsmjs.git#master"
+  }
+}
